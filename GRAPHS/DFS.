@@ -1,0 +1,23 @@
+class Solution {
+
+    public void dfss(ArrayList<ArrayList<Integer>> adj, int curr, boolean vis[], ArrayList<Integer> res) {
+        vis[curr] = true;
+        res.add(curr);  // store node
+
+        for (int i = 0; i < adj.get(curr).size(); i++) {
+            int e = adj.get(curr).get(i);
+            if (!vis[e]) {
+                dfss(adj, e, vis, res);
+            }
+        }
+    }
+
+    public ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> res = new ArrayList<>();
+        boolean vis[] = new boolean[adj.size()];
+
+        dfss(adj, 0, vis, res);  // start from node 0
+
+        return res;
+    }
+}
