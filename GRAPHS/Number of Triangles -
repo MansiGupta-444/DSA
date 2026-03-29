@@ -1,0 +1,63 @@
+1. Undirected Graph
+//adj[i][j] == 1 && adj[j][k] == 1 && adj[k][i] == 1
+
+//Each triangle is counted 6 times:
+(i, j, k)
+(i, k, j)
+(j, i, k)
+(j, k, i)
+(k, i, j)
+(k, j, i)
+👉 So we divide by 6
+
+class Solution {
+    public int countTriangles(int[][] graph, int n) {
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+
+                    if (graph[i][j] == 1 &&
+                        graph[j][k] == 1 &&
+                        graph[k][i] == 1) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count / 6;  // divide by 6 for undirected
+    }
+}
+
+
+2. Directed Graph
+
+//Each triangle is counted 3 times:
+(i → j → k → i)
+(j → k → i → j)
+(k → i → j → k)
+👉 So divide by 3
+
+class Solution {
+    public int countTriangles(int[][] graph, int n) {
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+
+                    if (graph[i][j] == 1 &&
+                        graph[j][k] == 1 &&
+                        graph[k][i] == 1) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count / 3;  // divide by 3 for directed
+    }
+}
+
