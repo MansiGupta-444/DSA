@@ -1,0 +1,54 @@
+class Solution {
+
+    public boolean iscycleutil(ArrayList<ArrayList<Integer>> adj, boolean vis[], boolean stack[], int curr) {
+        vis[curr] = true;
+        stack[curr] = true;
+
+        for (int i = 0; i < adj.get(curr).size(); i++) {
+
+            int e = adj.get(curr).get(i);  
+
+            if (stack[e]) {
+                return true;
+            }
+
+            // DFS
+            if (!vis[e] && iscycleutil(adj, vis, stack, e)) {
+                return true;
+            }
+        }
+
+        stack[curr] = false;
+        return false;
+    }
+
+    public boolean isCyclic(int V, int[][] edges) {
+
+//first convert it to arraylist
+
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            adj.get(u).add(v);
+        }
+
+        boolean vis[] = new boolean[V];
+        boolean stack[] = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                if (iscycleutil(adj, vis, stack, i)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
