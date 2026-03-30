@@ -1,0 +1,45 @@
+class Solution {
+    public boolean iscycledetect(ArrayList<ArrayList<Integer>> adj,boolean vis[],int curr,int parent)
+    {
+        vis[curr]=true;
+        for(int i =0;i<adj.get(curr).size();i++){
+            int e = adj.get(curr).get(i);
+            if(!vis[e] ){
+                if(iscycledetect(adj,vis,e,curr)){
+               return true;
+                }
+            }
+            else if(vis[e] && e!=parent){ //impertant else if
+                return true;
+            }
+
+        }
+        return false;
+    }
+    
+    
+    public boolean isCycle(int V, int[][] edges) {
+
+        ArrayList<ArrayList<Integer>> adj =new ArrayList<>();
+        
+        for(int i=0;i<V;i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        for(int i=0;i<edges.length;i++){
+         int v = edges[i][0];
+         int u = edges[i][1];
+         adj.get(v).add(u);
+         adj.get(u).add(v); // important
+        }
+        boolean vis[] = new boolean[V];
+        for(int i =0;i<V;i++){
+            if(!vis[i]){
+               if (iscycledetect(adj,vis,i,-1)){
+                   return true;
+               }
+            }
+        }
+        return false;
+    }
+}
