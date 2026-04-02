@@ -1,0 +1,77 @@
+/**
+ * LeetCode 1319 - Number of Operations to Make Network Connected
+ *
+ * Approach:
+ * 1. Minimum edges required to connect n nodes = n - 1
+ * 2. If given edges < n-1 → return -1 (not possible)
+ * 3. Count number of connected components using DFS
+ * 4. To connect k components → need (k - 1) operations
+ *
+ * Time Complexity: O(N + E)
+ * Space Complexity: O(N + E)
+ */
+
+class Solution {
+
+    /**
+     * Depth First Search to traverse a component
+     * Marks all reachable nodes as visited
+     */
+    public void dfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] vis) {
+        vis[node] = true;
+
+        // Traverse all neighbors of current node
+        for (int i = 0; i < adj.get(node).size(); i++) {
+            int neighbor = adj.get(node).get(i);
+
+            // If neighbor is not visited, visit it
+            if (!vis[neighbor]) {
+                dfs(neighbor, adj, vis);
+            }
+        }
+    }
+
+    /**
+     * Main function to calculate minimum operations
+     */
+    public int makeConnected(int n, int[][] connections) {
+
+        // Step 1: Check if enough cables are available
+        // To connect n computers, we need at least (n - 1) cables
+        if (connections.length < n - 1) {
+            return -1;
+        }
+
+        // Step 2: Create adjacency list representation of graph
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Step 3: Build the graph from given connections
+        for (int i = 0; i < connections.length; i++) {
+            int u = connections[i][0];
+            int v = connections[i][1];
+
+            // Since the graph is undirected, add both ways
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        // Step 4: Count connected components
+        boolean[] vis = new boolean[n];
+        int components = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                components++;
+                dfs(i, adj, vis); // Explore this component
+            }
+        }
+
+        // Step 5: Minimum operations required
+        // To connect k components → need (k - 1) cables
+        return components - 1;
+    }
+}
