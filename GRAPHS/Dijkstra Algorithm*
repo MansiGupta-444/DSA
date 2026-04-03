@@ -1,0 +1,89 @@
+import java.util.*;
+
+class Solution {
+
+    // Adjacency list pair (node + weight)
+    class Pair {
+        int node, wt;
+
+        Pair(int node, int wt) {
+            this.node = node;
+            this.wt = wt;
+        }
+    }
+
+    // For Priority Queue (node + distance)
+    class Pairs implements Comparable<Pairs> {
+        int node, path;
+
+        Pairs(int node, int path) {
+            this.node = node;
+            this.path = path;
+        }
+
+        @Override
+        public int compareTo(Pairs p2) {
+            return this.path - p2.path; // min heap
+        }
+    }
+
+    public int[] dijkstra(int V, int[][] edges, int src) {
+
+        // Step 1: Create adjacency list
+        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Undirected graph
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int wt = edges[i][2];
+
+            adj.get(u).add(new Pair(v, wt));
+            adj.get(v).add(new Pair(u, wt)); // IMPORTANT
+        }
+
+        // Step 2: Distance array
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        dist[src] = 0;
+
+        // Step 3: Visited array
+        boolean[] vis = new boolean[V];
+
+        // Step 4: Priority Queue
+        PriorityQueue<Pairs> pq = new PriorityQueue<>();
+        pq.add(new Pairs(src, 0));
+
+        // Step 5: Dijkstra
+        while (!pq.isEmpty()) {
+
+            Pairs curr = pq.poll();
+            int node = curr.node;
+
+            if (vis[node]) continue;
+
+            vis[node] = true;
+
+            for (int i = 0; i < adj.get(node).size(); i++) {
+
+                Pair neighbor = adj.get(node).get(i);
+
+                int adjNode = neighbor.node;
+                int weight = neighbor.wt;
+
+                // Relaxation
+                if (dist[node] + weight < dist[adjNode]) {
+                    dist[adjNode] = dist[node] + weight;
+                    pq.add(new Pairs(adjNode, dist[adjNode]));
+                }
+            }
+        }
+
+        return dist;
+    }
+}
