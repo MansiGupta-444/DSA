@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    
+    public static void dfs(ArrayList<ArrayList<Integer>> adj, boolean[] vis,
+                           Stack<Integer> s, int curr){
+        
+        vis[curr] = true;
+        
+        // simple loop instead of for-each
+        for(int i = 0; i < adj.get(curr).size(); i++){
+            int e = adj.get(curr).get(i);
+            
+            if(!vis[e]){
+                dfs(adj, vis, s, e);
+            }
+        }
+        
+        s.push(curr);
+    }
+    
+    public ArrayList<Integer> topoSort(int V, int[][] edges) {
+        
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i < V; i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        
+        for(int i = 0; i < edges.length; i++){
+             int u = edges[i][0];
+              int v = edges[i][1];
+    
+          adj.get(u).add(v);
+    
+         }
+        
+        boolean[] vis = new boolean[V];
+        Stack<Integer> s = new Stack<>();
+        
+        for(int i = 0; i < V; i++){
+            if(!vis[i]){
+                dfs(adj, vis, s, i);
+            }
+        }
+        
+        ArrayList<Integer> top = new ArrayList<>();
+        while(!s.isEmpty()){
+            top.add(s.pop());
+        }
+        
+        return top;
+    }
+}
