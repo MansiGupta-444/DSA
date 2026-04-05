@@ -1,0 +1,72 @@
+import java.util.*;
+
+/**
+ * Problem: Minimum Time to Complete Each Task in a DAG
+ * Approach: Topological Sort (Kahn’s Algorithm) + Longest Path in DAG
+ *
+ * Idea:
+ * - Each node represents a task
+ * - Each edge (u → v) means u must be completed before v
+ * - Each task takes 1 unit time
+ * - We compute the earliest time each task can be completed
+ */
+
+class Solution {
+
+    public static int[] minimumTime(int n, int m, int[][] edges) {
+
+        // Step 1: Create adjacency list
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Step 2: Create indegree array
+        int[] indeg = new int[n];
+
+        // Step 3: Build graph (convert 1-based to 0-based indexing)
+        for(int i = 0; i < m; i++) {
+            int u = edges[i][0] - 1;
+            int v = edges[i][1] - 1;
+
+            adj.get(u).add(v);
+            indeg[v]++;
+        }
+
+        // Step 4: Initialize queue for BFS (Kahn's Algorithm)
+        Queue<Integer> q = new LinkedList<>();
+
+        // Step 5: Time array to store minimum completion time
+        int[] time = new int[n];
+
+        // Step 6: Add nodes with no dependencies (indegree = 0)
+        for(int i = 0; i < n; i++) {
+            if(indeg[i] == 0) {
+                q.add(i);
+                time[i] = 1; // Can start immediately
+            }
+        }
+
+        // Step 7: Process nodes using BFS
+        while(!q.isEmpty()) {
+            int curr = q.poll();
+
+            for(int i = 0; i < adj.get(curr).size(); i++) {
+                int next = adj.get(curr).get(i);
+
+                // Update time using longest path logic
+                time[next] = Math.max(time[next], time[curr] + 1);
+
+                // Reduce indegree
+                indeg[next]--;
+
+                // If no remaining dependencies, add to queue
+                if(indeg[next] == 0) {
+                    q.add(next);
+                }
+            }
+        }
+
+        return time;
+    }
+}
