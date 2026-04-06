@@ -1,0 +1,52 @@
+import java.util.*;
+
+class Solution {
+    public boolean canFinish(int n, int[][] prerequisites) {
+
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        int indeg[] = new int[n];
+
+        for(int i = 0; i < n; i++){
+            adj.add(new ArrayList<>());
+        }
+
+        // FIX 1: correct loop
+        for(int i = 0; i < prerequisites.length; i++){
+            int u = prerequisites[i][0];
+            int v = prerequisites[i][1];
+
+            // FIX 2: correct edge
+            adj.get(v).add(u);
+
+            // FIX 3: correct indegree
+            indeg[u]++;
+        }
+
+        int count = 0;
+        Queue<Integer> q = new LinkedList<>();
+
+        // add all nodes with indegree 0
+        for(int i = 0; i < n; i++){
+            if(indeg[i] == 0){
+                q.add(i);
+            }
+        }
+
+        // FIX 4: BFS outside loop
+        while(!q.isEmpty()){
+            int curr = q.remove();
+            count++;
+
+            for(int i = 0; i < adj.get(curr).size(); i++){
+                int e = adj.get(curr).get(i);
+                indeg[e]--;
+
+                if(indeg[e] == 0){
+                    q.add(e);
+                }
+            }
+        }
+
+        return count == n;
+    }
+}
