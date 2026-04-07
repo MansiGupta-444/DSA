@@ -1,0 +1,61 @@
+/**
+ * Problem: Count number of islands in a grid.
+ * 
+ * An island is a group of connected 'L' (land) cells.
+ * Connectivity includes all 8 directions:
+ * up, down, left, right, and diagonals.
+ *
+ * Approach: Depth First Search (DFS)
+ * 
+ * Time Complexity: O(n * m)
+ * Space Complexity: O(n * m)
+ */
+
+class Solution {
+
+    // DFS function to explore all connected land cells
+    private void dfs(char[][] grid, int i, int j, boolean[][] visited) {
+
+        int n = grid.length;
+        int m = grid[0].length;
+
+        // Boundary and validity check
+        if (i < 0 || j < 0 || i >= n || j >= m) return;
+        if (grid[i][j] != 'L' || visited[i][j]) return;
+
+        // Mark current cell as visited
+        visited[i][j] = true;
+
+        // 8 possible directions (including diagonals)
+        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] dy = {-1,  0,  1, -1, 1, -1, 0, 1};
+
+        for (int d = 0; d < 8; d++) {
+            dfs(grid, i + dx[d], j + dy[d], visited);
+        }
+    }
+
+    // Main function to count islands
+    public int countIslands(char[][] grid) {
+
+        int n = grid.length;
+        int m = grid[0].length;
+
+        boolean[][] visited = new boolean[n][m];
+        int islandCount = 0;
+
+        // Traverse entire grid
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+
+                // Start DFS if unvisited land is found
+                if (grid[i][j] == 'L' && !visited[i][j]) {
+                    dfs(grid, i, j, visited);
+                    islandCount++;
+                }
+            }
+        }
+
+        return islandCount;
+    }
+}
