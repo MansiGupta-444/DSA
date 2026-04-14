@@ -1,0 +1,50 @@
+
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+
+        // edge case: no change needed
+        if (head == null || left == right) return head;
+
+        // dummy node helps when left = 1 (head changes)
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;   // don't do: dummy = head
+
+        ListNode temp = dummy;
+
+        // move to node just before 'left' (position left-1)
+        for (int i = 1; i < left; i++) {
+            temp = temp.next;
+        }
+
+        // start reversing from 'left'
+        ListNode prev = null;
+        ListNode curr = temp.next;
+
+        // reverse (right - left + 1) nodes
+        for (int j = 0; j < right - left + 1; j++) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        // reconnect the list
+        ListNode tail = temp.next;  // original 'left' node
+        temp.next = prev;           // connect first part
+        tail.next = curr;           // connect remaining part
+
+        // return new head (important when left = 1)
+        return dummy.next;
+    }
+}
+```
+
+---
+
+ Note
+
+* Use a **dummy node** to safely handle head changes
+* Stop at **left - 1**, not `left`
+* Reverse exactly **(right - left + 1)** nodes
+* Original `left` node becomes the **tail** after reversal
+* Always return `dummy.next`, not `head`
