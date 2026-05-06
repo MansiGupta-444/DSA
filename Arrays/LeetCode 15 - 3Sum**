@@ -1,0 +1,85 @@
+import java.util.*;
+//3Sum is NOT a subarray problem.
+//Indices can be anywhere.
+class Solution {
+
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        // sort array
+        Arrays.sort(nums);
+
+        // final answer
+        List<List<Integer>> ans = new ArrayList<>();
+
+
+        // fixing first element
+        for (int i = 0; i < nums.length; i++) {
+
+            // skip duplicate i
+            // otherwise same triplet will come again
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+
+            while (left < right) {
+
+                int sum = nums[i] + nums[left] + nums[right];
+
+
+                // need bigger sum
+                if (sum < 0) {
+                    left++;
+                }
+
+                // need smaller sum
+                else if (sum > 0) {
+                    right--;
+                }
+
+                // triplet found
+                else {
+
+                    // create new list every time
+                    // because this is inside loop
+                    // every triplet becomes separate
+                    List<Integer> triplet = new ArrayList<>();
+
+                    triplet.add(nums[i]);
+                    triplet.add(nums[left]);
+                    triplet.add(nums[right]);
+
+                    ans.add(triplet);
+
+
+                    // skip duplicate left values
+                    // example 0 0 0
+                    while (left < right &&
+                           nums[left] == nums[left + 1]) {
+
+                        left++;
+                    }
+
+
+                    // skip duplicate right values
+                    // example 2 2
+                    while (left < right &&
+                           nums[right] == nums[right - 1]) {
+
+                        right--;
+                    }
+
+
+                    // move both pointers
+                    left++;
+                    right--;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
