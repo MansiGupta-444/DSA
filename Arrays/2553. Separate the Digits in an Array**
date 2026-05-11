@@ -1,0 +1,85 @@
+// first method brute force
+import java.util.Arrays;
+
+class Solution {
+
+    public int[] separateDigits(int[] nums) {
+
+        int totalDigits = 0;
+
+        // count total digits 
+        // if we not count totaldigits then index bound will appear
+        for (int num : nums) {
+
+            int temp = num;
+
+            while (temp > 0) {
+                totalDigits++;
+                temp /= 10;
+            }
+        }
+
+        int[] answer = new int[totalDigits];
+
+        int j = 0;
+
+        for (int num : nums) {
+
+            int[] temp = new int[10];
+            int k = 0;
+
+            while (num > 0) {
+
+                temp[k] = num % 10;
+                k++;
+
+                num /= 10;
+            }
+
+            for (int p = k - 1; p >= 0; p--) {
+
+                answer[j] = temp[p];
+                j++;
+            }
+        }
+
+        return answer;
+    }
+}
+
+
+/// optimized
+import java.util.*;
+
+class Solution {
+
+    public int[] separateDigits(int[] nums) {
+
+        // Dynamic list to store digits
+        List<Integer> list = new ArrayList<>();
+
+        // Traverse every number
+        for (int num : nums) {
+
+            // Convert number to string
+            String s = String.valueOf(num);
+
+            // Traverse every character
+            for (char ch : s.toCharArray()) {
+
+                // Convert char to digit and add
+                list.add(ch - '0');
+            }
+        }
+
+        // Convert ArrayList to array
+        int[] answer = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+
+            answer[i] = list.get(i);
+        }
+
+        return answer;
+    }
+}
