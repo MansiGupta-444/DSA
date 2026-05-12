@@ -1,0 +1,50 @@
+class Solution {
+
+    static boolean pairInSortedRotated(int arr[], int target) {
+
+        int n = arr.length;
+        int pivot = -1;
+
+        // Find pivot point
+        for (int i = 0; i < n - 1; i++) {
+
+            if (arr[i] > arr[i + 1]) {
+                pivot = i;
+                break;
+            }
+        }
+
+        // If array is not rotated
+        if (pivot == -1) {
+            pivot = n - 1;
+        }
+
+        // Smallest element
+        int left = (pivot + 1) % n;
+
+        // Largest element
+        int right = pivot;
+
+        while (left != right) {
+
+            int sum = arr[left] + arr[right];
+
+            // Pair found
+            if (sum == target) {
+                return true;
+            }
+
+            // Increase sum
+            if (sum < target) {
+                left = (left + 1) % n;
+            }
+
+            // Decrease sum
+            else {
+                right = (n + right - 1) % n;
+            }
+        }
+
+        return false;
+    }
+}///time complexity = O(n)
