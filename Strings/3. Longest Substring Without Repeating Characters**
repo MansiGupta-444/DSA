@@ -1,0 +1,28 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+
+        int left = 0;
+        int maxLength = 0;
+
+        ArrayList<Character> list = new ArrayList<>();
+
+        for (int right = 0; right < s.length(); right++) {
+
+            char ch = s.charAt(right);
+
+            // Remove characters until duplicate is removed
+            while (list.contains(ch)) {
+                list.remove(Character.valueOf(s.charAt(left)));
+                left++;
+            }
+
+            // Add current character
+            list.add(ch);
+
+            // Update maximum length
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+}
