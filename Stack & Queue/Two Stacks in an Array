@@ -1,0 +1,48 @@
+question link:https://www.geeksforgeeks.org/problems/implement-two-stacks-in-an-array/1
+
+class twoStacks {
+    
+    int size = 100;
+    int[] arr = new int[size];
+
+    int top1;
+    int top2;
+
+    twoStacks() {
+        top1 = -1;
+        top2 = size;
+    }
+
+    // Push in stack 1
+    void push1(int x) {
+        if (top1 + 1 < top2) {
+            arr[++top1] = x;
+        }
+    }
+
+    // Push in stack 2
+    void push2(int x) {
+        if (top1 + 1 < top2) {
+            arr[--top2] = x;
+        }
+    }
+
+    // Pop from stack 1
+    int pop1() {
+        if (top1 == -1) {
+            return -1;
+        }
+        return arr[top1--];
+    }
+
+    // Pop from stack 2
+    int pop2() {
+        if (top2 == size) {
+            return -1;
+        }
+        return arr[top2++];
+    }
+}
+
+suggestions :1 two pinter approach
+2 In a stack, "pop" means removing the top element logically, not necessarily setting the array cell to 0 or deleting it physically.
