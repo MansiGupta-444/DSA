@@ -1,0 +1,23 @@
+ques link : http://geeksforgeeks.org/problems/delete-middle-element-of-a-stack/1
+
+class Solution {
+
+    public void mid(Stack<Integer> s, int count, int k) {
+        if (s.isEmpty()) {
+            return;
+        }
+
+        int x = s.pop();
+
+        mid(s, count + 1, k);
+
+        if (count != k) {
+            s.push(x);
+        }
+    }
+
+    public void deleteMid(Stack<Integer> s) {
+        int k = s.size() / 2 + 1;   // middle from top
+        mid(s, 1, k);
+    }
+}
