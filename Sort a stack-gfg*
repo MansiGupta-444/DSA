@@ -1,0 +1,31 @@
+class Solution {
+
+    public void asc(Stack<Integer> s, int x) {
+
+        if (s.isEmpty() || s.peek() < x) {
+            s.push(x);
+            return;
+        }
+
+        int temp = s.pop();
+
+        asc(s, x);
+
+        s.push(temp);
+    }
+
+    public void sortStack(Stack<Integer> st) {
+
+        if (st.isEmpty()) {
+            return;
+        }
+
+        int x = st.pop();
+
+        sortStack(st);
+
+        asc(st, x);
+    }
+}
+
+suggestion : recursion in both
