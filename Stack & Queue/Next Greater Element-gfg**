@@ -25,3 +25,28 @@ class Solution {
 }
 
 suggestion : start from back
+
+similar problem : Next Smaller Element
+
+class Solution {
+    static ArrayList<Integer> nextSmallerEle(int[] arr) {
+        // code here
+        Stack<Integer> s = new Stack<Integer>();
+        ArrayList<Integer> ans = new ArrayList<>();
+        int n = arr.length;
+        for(int i =0 ; i<n;i++){
+        ans.add(-1);
+        }
+        for(int i = n-1; i>=0;i--){
+            while(!s.isEmpty() && s.peek()>=arr[i]){
+                s.pop();
+            }
+        
+        if(!s.isEmpty()){
+            ans.set(i,s.peek());
+        }
+        s.push(arr[i]);
+        }
+        return ans;
+    }
+}
