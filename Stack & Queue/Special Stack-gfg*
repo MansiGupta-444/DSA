@@ -1,0 +1,37 @@
+/*Complete the function(s) below*/
+class GfG {
+
+    Stack<Integer> min = new Stack<>();
+question :https://www.geeksforgeeks.org/problems/special-stack/1
+
+    public void push(int a, Stack<Integer> s) {
+        s.push(a);
+        if (min.isEmpty() || a <= min.peek()) {
+            min.push(a);
+        }
+    }
+
+    public int pop(Stack<Integer> s) {
+        if (s.isEmpty()) return -1;
+
+        int remove = s.pop();
+        if (!min.isEmpty() && remove == min.peek()) {
+            min.pop();
+        }
+        return remove;
+    }
+
+    public int min(Stack<Integer> s) {
+        if (min.isEmpty()) return -1;
+        return min.peek();
+    }
+
+    public boolean isFull(Stack<Integer> s, int n) {
+        return s.size() == n;
+    }
+
+    public boolean isEmpty(Stack<Integer> s) {
+        return s.isEmpty();
+    }
+}
+logic : to find min we know  min ke bade jo element have vo pop hoge to unhe hame min stack mai kyu dalenge
