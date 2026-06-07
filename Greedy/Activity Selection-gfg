@@ -1,0 +1,29 @@
+ques link : https://www.geeksforgeeks.org/problems/activity-selection-1587115620/1
+import java.util.*;
+
+class Solution {
+    public int activitySelection(int[] start, int[] finish) {
+
+        int activities[][] = new int[start.length][3];
+
+        for (int i = 0; i < start.length; i++) {
+            activities[i][0] = i;
+            activities[i][1] = start[i];
+            activities[i][2] = finish[i];
+        }
+
+        Arrays.sort(activities, Comparator.comparingInt(o -> o[2]));
+
+        int maxAct = 1;
+        int lastEnd = activities[0][2];
+
+        for (int i = 1; i < start.length; i++) {
+            if (activities[i][1] > lastEnd) {   // or >= depending on problem statement
+                maxAct++;
+                lastEnd = activities[i][2];
+            }
+        }
+
+        return maxAct;
+    }
+}
