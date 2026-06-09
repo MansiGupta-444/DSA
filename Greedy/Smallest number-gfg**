@@ -1,0 +1,30 @@
+ques : https://www.geeksforgeeks.org/problems/smallest-number5829/1
+class Solution {
+    public String smallestNumber(int s, int d) {
+        // code here
+        if(s==0){
+            return (d==1) ? "0":"-1";
+        }
+        if(s>9*d){
+            return  "-1";
+        }
+        s--;
+        int num[] = new int[d];
+        for(int i = d-1;i>0;i--){
+            if(s>9){
+                s=s-9;
+                num[i]=9;
+            }else{
+                num[i]=s;
+                s=0;
+            }
+        }
+        num[0]=s+1;
+        
+        StringBuilder s1 = new StringBuilder();
+        for(int digit : num){
+            s1.append(digit);
+        }
+        return s1.toString();
+    } 
+}
