@@ -1,0 +1,19 @@
+for(int i = 0; i < n && k > 0; i++) {
+
+    int minIdx = i;
+
+    for(int j = i + 1; j < n && j <= i + k; j++) {
+        if(arr[j] < arr[minIdx]) {
+            minIdx = j;
+        }
+    }
+
+    while(minIdx > i) {
+        int temp = arr[minIdx];
+        arr[minIdx] = arr[minIdx - 1];
+        arr[minIdx - 1] = temp;
+
+        minIdx--;
+        k--;
+    }
+}
