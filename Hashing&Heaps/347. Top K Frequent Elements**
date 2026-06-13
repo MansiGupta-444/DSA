@@ -6,7 +6,11 @@ class Solution {
         HashMap<Integer, Integer> hm = new HashMap<>();
 
         for (int num : nums) {
-            hm.put(num, hm.getOrDefault(num, 0) + 1);
+            if(this.freq==r2.freq){
+               return  this.res-r2.res;
+            }else{
+              return r2.freq-this.freq;
+            }
         }
 
         PriorityQueue<Integer> pq =
