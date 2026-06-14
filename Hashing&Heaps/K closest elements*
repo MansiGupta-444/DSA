@@ -1,0 +1,101 @@
+ques link : https://www.geeksforgeeks.org/problems/k-closest-elements3619/1
+
+// my second methon(recent method)
+
+class Solution {
+    int[] printKClosest(int[] arr, int k, int x) {
+        // code here
+         class closest implements Comparable<closest>{
+            int abs;
+            int value;
+            closest(int abs,int value){
+                this.abs=abs;
+                this.value=value;
+            }
+            
+            public int compareTo(closest r2){
+                if(this.abs==r2.abs){
+                    return r2.value-this.value;
+                }
+                return this.abs-r2.abs;
+            }
+        }
+        int j =1;
+       
+        
+        PriorityQueue<closest> pq =new PriorityQueue<>();
+        
+        
+        for(int i =0;i<arr.length;i++){
+            int abs=Math.abs(arr[i]-x);
+            if(abs==0){
+                break;
+            }
+                pq.add(new closest(abs,arr[i]));
+                j++;
+            }
+        
+        int res[] = new int[k];
+        for(int i =0;i<k;i++){
+            res[i]=pq.poll().value;
+        }
+        return res;
+    }
+}
+
+//first method
+
+class Solution {
+    int[] printKClosest(int[] arr, int k, int x) {
+
+        int n = arr.length;
+        int[] arr2 = new int[k];
+
+        int idx = 0;
+
+        // find position where x should be
+        while (idx < n && arr[idx] < x) {
+            idx++;
+        }
+
+        int left = idx - 1;
+        int right = idx;
+
+        for (int i = 0; i < k; i++) {
+
+            // skip x
+            if (left >= 0 && arr[left] == x) {
+                left--;
+            }
+            if (right < n && arr[right] == x) {
+                right++;
+            }
+
+            if (left < 0) {
+                arr2[i] = arr[right++];
+            }
+            else if (right >= n) {
+                arr2[i] = arr[left--];
+            }
+            else {
+                int dl = Math.abs(arr[left] - x);
+                int dr = Math.abs(arr[right] - x);
+
+                if (dl < dr) {
+                    arr2[i] = arr[left--];
+                }
+                else if (dr < dl) {
+                    arr2[i] = arr[right++];
+                }
+                else { // tie → larger element
+                    if (arr[right] > arr[left]) {
+                        arr2[i] = arr[right++];
+                    } else {
+                        arr2[i] = arr[left--];
+                    }
+                }
+            }
+        }
+        return arr2;
+    }
+}
