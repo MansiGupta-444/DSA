@@ -1,0 +1,26 @@
+ques link : https://www.geeksforgeeks.org/problems/kth-largest-element-in-a-stream2220/1
+
+class Solution {
+    static int[] kthLargest(int k, int[] arr, int n) {
+        // code here
+        int[] arr2 = new int[n];
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        
+        for(int i=0; i<arr.length;i++){
+            pq.add(arr[i]);
+            
+            if (pq.size() > k) {
+                pq.poll();
+            }
+            
+            if(pq.size()<k){
+                arr2[i]=-1;
+            }
+            else {
+                arr2[i]=pq.peek();
+            }
+        }
+        return arr2;
+            
+    }
+}
