@@ -1,0 +1,64 @@
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}
+*/
+
+class Solution {
+
+    
+
+    int height(Node root){
+        if(root == null)
+            return 0;
+
+        int lh = height(root.left);
+        int rh = height(root.right);
+
+        return Math.max(lh, rh) + 1;
+    }
+
+    boolean check(Node root) {
+        if(root == null){
+            return true;
+        }
+        
+        int h = height(root);
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+
+        int level = 0;
+
+        while(!q.isEmpty()){
+            int size = q.size();
+
+            for(int i = 0; i < size; i++){
+                Node curr = q.remove();
+
+                
+                if(curr.left == null && curr.right == null){
+                       
+                      if(h-1 != level){
+                        return false;
+                    }
+                }
+
+                if(curr.left != null)
+                    q.add(curr.left);
+
+                if(curr.right != null)
+                    q.add(curr.right);
+            }
+            level++;
+        }
+        return true;
+    }
+}
