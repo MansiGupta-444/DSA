@@ -1,0 +1,32 @@
+
+class Solution {
+    boolean isIsomorphic(Node root1, Node root2) {
+        
+        // Both trees are empty
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+
+        // One tree is empty, the other is not
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+
+        // Data at current nodes must match
+        if (root1.data != root2.data) {
+            return false;
+        }
+
+        // Case 1: No swap
+        boolean noSwap =
+                isIsomorphic(root1.left, root2.left) &&
+                isIsomorphic(root1.right, root2.right);
+
+        // Case 2: Swap left and right children
+        boolean swap =
+                isIsomorphic(root1.left, root2.right) &&
+                isIsomorphic(root1.right, root2.left);
+
+        return noSwap || swap;
+    }
+}
