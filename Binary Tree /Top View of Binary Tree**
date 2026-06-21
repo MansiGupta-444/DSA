@@ -1,0 +1,44 @@
+ques link ; https://www.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+
+class Solution {
+      public class info{
+            Node node;
+            int ht;
+            
+            public info(Node node,int ht){
+                this.node = node;
+                this.ht =ht;
+            }
+        }
+    
+    public ArrayList<Integer> topView(Node root) {
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        Queue<info> q = new LinkedList<>();
+        HashMap<Integer,Node> hm = new HashMap<>();
+        int min=0,max=0;
+        q.add(new info(root,0));
+        
+        while(!q.isEmpty()){
+            info curr = q.remove();
+            
+            if(!hm.containsKey(curr.ht)){
+                hm.put(curr.ht,curr.node);
+            }
+            
+            if(curr.node.left!=null){
+                q.add(new info (curr.node.left,curr.ht-1));
+                min = Math.min(min,curr.ht-1);
+            }
+            if(curr.node.right!=null){
+                q.add(new info(curr.node.right,curr.ht+1));
+                max = Math.max(max,curr.ht+1);
+            }
+        }
+        for(int i = min;i<=max;i++){
+            res.add(hm.get(i).data);
+        }
+        
+       return res; 
+    }
+}
