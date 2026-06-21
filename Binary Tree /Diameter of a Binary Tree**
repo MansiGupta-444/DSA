@@ -1,0 +1,39 @@
+question link :  https://www.geeksforgeeks.org/problems/diameter-of-binary-tree/1
+class Solution {
+
+    class info {
+        int ht;
+        int diam;
+
+        public info(int ht, int diam) {
+            this.ht = ht;
+            this.diam = diam;
+        }
+    }
+
+    public info dia(Node root) {
+
+        if (root == null) {
+            return new info(0, 0);
+        }
+
+        info l = dia(root.left);
+        info r = dia(root.right);
+
+        int ht = Math.max(l.ht, r.ht) + 1;
+
+        int diam = Math.max(
+                        l.ht + r.ht + 1,
+                        Math.max(l.diam, r.diam)
+                    );
+
+        return new info(ht, diam);
+    }
+
+    public int diameter(Node root) {
+
+        info res = dia(root);
+
+        return res.diam-1;
+    }
+}
