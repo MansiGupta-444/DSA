@@ -1,0 +1,52 @@
+question link : https://www.geeksforgeeks.org/problems/diagonal-traversal-of-binary-tree/1
+
+// second solution mine all by me
+class Tree {
+    public ArrayList<Integer> dia(Node root,ArrayList<Integer> res,Queue<Node> q ){
+        
+        if(root==null){
+         if(!q.isEmpty()){    
+            dia(q.remove(),res,q);
+            }
+            return res;
+        }
+        
+        res.add(root.data);
+        if(root.left!=null){
+        q.add(root.left);    
+        }
+        dia(root.right,res,q);
+        
+        return res;
+    }
+    
+    public ArrayList<Integer> diagonal(Node root) {
+    ArrayList<Integer> res = new ArrayList<>();
+     Queue<Node> q = new LinkedList<>();
+      return dia(root,res,q);
+    }
+}
+
+//first solution
+class Tree {
+    public ArrayList<Integer> diagonal(Node root) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        if(root==null){
+            return ans;
+        }
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            Node curr = q.remove();
+            while(curr!=null){
+                ans.add(curr.data);
+                if(curr.left!=null){
+                    q.add(curr.left);
+                }
+                curr=curr.right;
+            }
+        }
+        return ans;
+        
+    }
+}
