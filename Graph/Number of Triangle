@@ -1,0 +1,10 @@
+question link : https://www.geeksforgeeks.org/dsa/number-of-triangles-in-directed-and-undirected-graphs/
+count = 0;
+
+for(i = 0; i < V; i++)
+    for(j = 0; j < V; j++)
+        for(k = 0; k < V; k++)
+            if(graph[i][j] &&
+               graph[j][k] &&
+               graph[k][i])
+                count++;
