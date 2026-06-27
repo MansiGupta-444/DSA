@@ -1,0 +1,52 @@
+ques link : https://www.geeksforgeeks.org/problems/steps-by-knight5927/1
+
+class Solution {
+    
+    class info{
+        int sx;
+        int sy;
+        int dist;
+        info(int sx,int sy,int dist){
+            this.sx = sx;
+            this.sy = sy;
+            this.dist = dist;
+        }
+    }
+    
+    public int minStepToReachTarget(int knightPos[], int targetPos[], int n) {
+        
+   int ix = knightPos[0]-1;
+   int iy = knightPos[1]-1;
+   int fx = targetPos[0]-1;
+   int fy = targetPos[1]-1;
+    
+    boolean vis[][] =new boolean[n][n];    
+    Queue<info> q = new LinkedList<>();
+    
+    int dx[] ={-2,-2,2,2,1,1,-1,-1};
+    int dy[] ={-1,1,-1,1,2,-2,2,-2};
+    
+    q.add(new info(ix,iy,0));
+    vis[ix][iy] = true;
+    
+    while(!q.isEmpty()){
+        info curr = q.remove();
+        if(curr.sx==fx && curr.sy==fy){
+            return curr.dist;
+        }
+        
+        for(int i =0;i<8;i++){
+            int x = curr.sx+dx[i];
+            int y = curr.sy+dy[i];
+            
+            if(x>=0 && y>=0 && x<n && y<n && !vis[x][y]){
+                vis[x][y]=true;
+                q.add(new info(x,y,curr.dist+1));
+                
+            }
+    
+        }
+    }
+      return -1;  
+    }
+}
