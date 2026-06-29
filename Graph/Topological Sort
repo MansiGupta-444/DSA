@@ -1,0 +1,44 @@
+ques link : https://www.geeksforgeeks.org/problems/topological-sort/1
+
+class Solution {
+    public void sort(int V, ArrayList<ArrayList<Integer>> res,boolean vis[],
+       Stack<Integer> s,int curr ){
+           vis[curr]=true;
+           for(int i =0;i<res.get(curr).size();i++){
+               int e = res.get(curr).get(i);
+               if(!vis[e]){
+                  sort(V,res,vis,s,e);  
+               }
+           }
+           s.push(curr);
+       }
+    
+    
+    public ArrayList<Integer> topoSort(int V, int[][] edges) {
+        // code here
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
+        boolean vis[] = new boolean[V];
+        Stack<Integer> s = new Stack<>();
+        for(int i =0;i<V;i++){
+            res.add(new ArrayList<>());
+        }
+        for(int i =0;i<edges.length;i++){
+            int u =edges[i][0];
+            int v =edges[i][1];
+            res.get(u).add(v);
+            }
+            
+            for(int i =0;i<V;i++){
+                if(!vis[i]){
+                  sort(V,res,vis,s,i);  
+                }
+            }
+            
+           while(!s.isEmpty()){
+               ans.add(s.pop());
+           } 
+           return ans;
+        
+    }
+}
