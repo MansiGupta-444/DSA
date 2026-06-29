@@ -1,0 +1,69 @@
+ques link : https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
+
+class Solution {
+    public class pair implements Comparable<pair>{
+        int n;
+        int path;
+        
+        public pair(int n,int path){
+            this.n=n;
+            this.path=path;
+        }
+        
+        @Override
+        public int compareTo (pair p2){
+            return this.path -p2.path;
+        }
+    }
+    
+    public int[] dijkstra(int V, int[][] edges, int src) {
+        ArrayList<ArrayList<pair>> res = new ArrayList<>();
+        
+        for(int i =0;i<V;i++){
+            res.add(new ArrayList<>());
+        }
+        for(int i =0;i<edges.length;i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int wt = edges[i][2];
+            
+           res.get(u).add(new pair(v,wt));
+           res.get(v).add(new pair(u,wt));
+            
+        }
+        
+        int dist[] = new int[V];
+        for(int i =0;i<V;i++){
+            if(i!=src){
+            dist[i]=Integer.MAX_VALUE;
+            }
+        }
+        boolean vis[] = new boolean[V];
+        PriorityQueue<pair> pq = new PriorityQueue<>();
+        
+        pq.add(new pair(src,0));
+        
+        while(!pq.isEmpty()){
+            pair curr = pq.remove();
+            
+            if(!vis[curr.n]){
+                vis[curr.n]=true;
+                for(int i =0;i<res.get(curr.n).size();i++){
+                    pair e = res.get(curr.n).get(i);
+                    int uu =curr.n;
+                    int vv= e.n;
+                    int wt=e.path;
+             if(dist[uu]+wt<dist[vv]){
+                 dist[vv]=dist[uu]+wt;
+                 pq.add(new pair(vv,dist[vv]));
+             }
+                }
+            }
+        }
+        int ans[] =new int[V];
+        for(int i =0;i<dist.length;i++){
+            ans[i]=dist[i];
+        }
+        return ans;
+    }
+}
