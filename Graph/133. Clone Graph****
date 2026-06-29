@@ -1,0 +1,32 @@
+
+class Solution {
+    public Node cloneGraph(Node node) {
+        
+         if (node == null) return null;
+         HashMap<Node,Node> hm = new HashMap<>();
+         Queue<Node> q = new LinkedList<>();
+
+         Node clone = new Node(node.val);
+         hm.put(node,clone);
+         q.add(node);
+
+         while(!q.isEmpty()){
+         Node curr = q.remove();
+
+         for(int i =0 ; i<curr.neighbors.size();i++){
+            Node ng = curr.neighbors.get(i);
+
+         if(!hm.containsKey(ng)){
+            Node newnode = new Node(ng.val);
+            hm.put(ng,newnode);      // corrected mapping (original → clone)
+            q.add(ng);               // queue should store original nodes
+         }
+
+         hm.get(curr).neighbors.add(hm.get(ng)); //Because: neighbor is from original graph, not cloned graph
+         }
+
+         }
+
+         return clone;
+    }
+}
