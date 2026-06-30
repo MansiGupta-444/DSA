@@ -1,0 +1,47 @@
+ques link = https://www.geeksforgeeks.org/problems/minimum-time-taken-by-each-job-to-be-completed-given-by-a-directed-acyclic-graph/1
+
+class Solution {
+
+    public static int[] minimumTime(int n, int m, int[][] edges) {
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        int indeg[] = new int[n];
+        int time[] = new int[n];
+        
+        for(int i=0 ;i<n;i++){
+            res.add(new ArrayList<>());
+        } 
+        
+        for(int i =0;i<m;i++){
+            int u = edges[i][0]-1;
+            int v = edges[i][1]-1;
+            res.get(u).add(v);
+            indeg[v]++;
+        }
+        
+        for(int i =0;i<n;i++){
+            if(indeg[i]==0){
+                q.add(i);
+                time[i]++;    
+            }
+        }
+        
+        while(!q.isEmpty()){
+            int curr = q.remove();
+            
+            for(int i=0;i<res.get(curr).size();i++ ){
+                int  e = res.get(curr).get(i);
+                time[e] = Math.max(time[e],time[curr]+1);
+                indeg[e]--;
+                
+                if(indeg[e]==0){
+                    q.add(e);
+                }
+            }
+        }
+         
+        return time;
+        
+    }
+}
