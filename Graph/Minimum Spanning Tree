@@ -1,0 +1,57 @@
+ques link : https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
+
+class Solution {
+    class pair implements Comparable <pair>{
+        int v;
+        int cost;
+        
+        pair(int v,int cost){
+            this.v =v;
+            this.cost=cost;
+        }
+        
+        @Override
+        public int compareTo(pair p2){
+            return this.cost-p2.cost;
+        }
+    }
+    public int spanningTree(int V, int[][] edges) {
+        boolean vis[] = new boolean[V];
+        ArrayList<ArrayList<pair>> res = new ArrayList<>();
+        PriorityQueue<pair> pq = new PriorityQueue<>();
+        
+         for(int i =0;i<V;i++){
+            res.add(new ArrayList<pair>());
+        }
+        
+        for(int i =0;i<edges.length;i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int wt = edges[i][2];
+            
+            res.get(u).add(new pair(v,wt));
+            res.get(v).add(new pair(u,wt));
+        }
+        
+        pq.add(new pair(0,0));
+        int fin_cost = 0;
+        
+        while(!pq.isEmpty()){
+            pair curr = pq.remove();
+            if(!vis[curr.v]){
+            fin_cost +=curr.cost;
+            vis[curr.v]=true;
+            
+            for(int i =0;i<res.get(curr.v).size();i++){
+                pair e = res.get(curr.v).get(i);
+                int n = e.v;
+                int w = e.cost;
+         
+                pq.add(new pair(n,w));
+               
+             }
+            }
+        }
+        return fin_cost;
+    }
+}
